@@ -27,15 +27,17 @@
     </div>
 
     <div class="actions">
-        <a id="link-revisar-diario" href="#">Revisar diariamente</a>
-        <a id="link-revisar-3-dias" href="#">Revisar em 3 dias</a>
-        <a id="link-concluido" href="#">Concluído por agora</a>
-        <a id="link-antecipar" href="#" style="background-color: #ffc107; color: #333;">Antecipar e Concluir Hoje</a>
+        <a id="link-review-daily-full" href="#">Revisar Diariamente (Díficil/Full)</a>
+        <a id="link-review-3days-simplified" href="#">Revisar em 3 Dias (Médio/Simplified)</a>
+        <a id="link-mark-mastered" href="#">Dominada (Fácil/Mastered)</a>
+
     </div>
 
     <script>
+        
+                        
         const wordsData = {
-            "ability": {
+            "Ability": {
                 "full": {
                     "definition": "habilidade",
                     "example": "1. Her ability to solve complex problems is impressive. (A habilidade dela para resolver problemas complexos é impressionante.) | 2. The athlete's physical abilities are extraordinary. (As habilidades físicas do atleta são extraordinárias.) | 3. This software has the ability to learn from user behavior. (Este software tem a capacidade de aprender com o comportamento do usuário.)",
@@ -51,7 +53,7 @@
                     "example": ""
                 }
             },
-            "access": {
+            "Access": {
                 "full": {
                     "definition": "acesso",
                     "example": "1. Students have access to the library 24/7. (Os estudantes têm acesso à biblioteca 24 horas por dia.) | 2. The fire exit must have clear access at all times. (A saída de emergência deve ter acesso livre em todos os momentos.) | 3. The journalist gained access to classified documents. (O jornalista obteve acesso a documentos classificados.)",
@@ -67,7 +69,7 @@
                     "example": ""
                 }
             },
-            "achievement": {
+            "Achievement": {
                 "full": {
                     "definition": "conquista",
                     "example": "1. Winning the Nobel Prize was her greatest achievement. (Ganhar o Prêmio Nobel foi sua maior conquista.) | 2. The moon landing marked a major human achievement. (O pouso na Lua marcou uma grande conquista humana.) | 3. The app tracks your fitness achievements. (O aplicativo rastreia suas conquistas fitness.)",
@@ -107,12 +109,16 @@
             const word = params.get('palavra');
             const level = params.get('level') || 'full';
             const eventId = params.get('event_id');
+            
+            const linkReviewDailyFull = document.getElementById('link-review-daily-full');
+            const linkReview3DaysSimplified = document.getElementById('link-review-3days-simplified');
+            const linkMarkMastered = document.getElementById('link-mark-mastered');
 
             const wordDetailsDiv = document.getElementById('word-details');
             const linkRevisarDiario = document.getElementById('link-revisar-diario');
             const linkRevisar3Dias = document.getElementById('link-revisar-3-dias');
             const linkConcluido = document.getElementById('link-concluido');
-            const linkAntecipar = document.getElementById('link-antecipar');
+            
 
             const googleAppsScriptBaseUrl = "https://script.google.com/macros/s/SEU_ID_DO_SCRIPT_AQUI/exec";
 
@@ -148,8 +154,13 @@
                 linkRevisarDiario.href = `${googleAppsScriptBaseUrl}?action=revisar_diariamente&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
                 linkRevisar3Dias.href = `${googleAppsScriptBaseUrl}?action=revisar_em_3_dias&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
                 linkConcluido.href = `${googleAppsScriptBaseUrl}?action=concluido_normal&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
-                linkAntecipar.href = `${googleAppsScriptBaseUrl}?action=antecipar_e_cancelar&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
+                linkReviewDailyFull.href = `${googleAppsScriptBaseUrl}?action=update_daily_full&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
+                linkReview3DaysSimplified.href = `${googleAppsScriptBaseUrl}?action=update_3days_simplified&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
+                linkMarkMastered.href = `${googleAppsScriptBaseUrl}?action=update_mastered&palavra=${word}&current_level=${level}&event_id=${eventId || ''}`;
 
+
+
+                
             } else {
                 wordDetailsDiv.innerHTML = `<p class="error-message">Palavra "${word || 'não especificada'}" ou nível "${level}" não encontrado.</p>`;
                 document.querySelector('.actions').style.display = 'none';
